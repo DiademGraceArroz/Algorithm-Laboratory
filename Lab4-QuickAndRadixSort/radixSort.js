@@ -1,17 +1,8 @@
 import { radixData } from "./radixSortData.js";
 
 // Helper function to get the character at a specific index of a string
-function getChar(string, index) {
-  // If the index is out of range, return 0
-  if (index >= string.length) {
-    return 0;
-  }
-  return string.charCodeAt(index);
-}
-
-// Radix sort implementation for an array of strings
 function radixSort(strings) {
-  const radix = 26; // Number of lowercase letters (a-z)
+  const radix = 26; // Number of possible characters (a-z)
 
   // Find the maximum length of strings in the array
   let maxLength = 0;
@@ -26,8 +17,14 @@ function radixSort(strings) {
 
     // Count the occurrences of each character at the current index
     for (let j = 0; j < strings.length; j++) {
-      const char = getChar(strings[j], i);
-      count[char]++;
+      const currentString = strings[j];
+      if (currentString.length > i) {
+        const charCode = currentString.charCodeAt(i) - 97; // Convert character to a number between 0 and 25
+        count[charCode]++;
+      } else {
+        // If the string has a length less than the current index, consider it as having a character with a value of 0
+        count[0]++;
+      }
     }
 
     // Calculate the cumulative count
@@ -37,9 +34,14 @@ function radixSort(strings) {
 
     // Build the sorted array based on the current character
     for (let j = strings.length - 1; j >= 0; j--) {
-      const char = getChar(strings[j], i);
-      sortedStrings[count[char] - 1] = strings[j];
-      count[char]--;
+      const currentString = strings[j];
+      if (currentString.length > i) {
+        const charCode = currentString.charCodeAt(i) - 97; // Convert character to a number between 0 and 25
+        sortedStrings[--count[charCode]] = currentString;
+      } else {
+        // Place strings with length less than the current index at the beginning of the sorted array
+        sortedStrings[--count[0]] = currentString;
+      }
     }
 
     // Update the original array with the sorted strings
