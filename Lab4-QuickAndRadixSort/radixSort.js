@@ -1,6 +1,5 @@
 import { radixData } from "./radixSortData.js";
 
-// Helper function to get the character at a specific index of a string
 function radixSort(strings) {
   const radix = 26; // Number of possible characters (a-z)
 
@@ -53,7 +52,7 @@ function radixSort(strings) {
   return strings;
 }
 
-// Randomize an array using Fisher-Yates shuffle algorithm
+// Randomize an array
 function randomizeArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -63,8 +62,7 @@ function randomizeArray(array) {
   return array;
 }
 
-// Example usage
-const array = radixData.slice(); // Create a copy of the radixData array
+const array = radixData.slice();
 const randomizedArray = randomizeArray(array);
 console.log(randomizedArray);
 const sortedArray = radixSort(randomizedArray);
